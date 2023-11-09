@@ -9,16 +9,24 @@ A collection of ROS sample applications for the Waveshare JetBot to run in AWS R
 
 ## Setup
 
-To run these sample applications, you can use the AWS RoboMaker IDE. For a full description on how to setup and get started with the virtual deskop feature in AWS RoboMaker, [See our blog](https://aws.amazon.com/blogs/robotics/aws-announces-a-new-developer-desktop-feature-within-the-aws-robomaker-ide/).
+To run these sample applications, you can use Cloud9 Enviroment. For this we can use a cloudformation template that provides the infrastructure needed or follow https://aws.amazon.com/blogs/robotics/robotics-development-in-aws-cloud9/ Blog and use ROS NOETIC.
 
-1. Open AWS RoboMaker in the AWS console. Click on *Development Environments*.
-2. Click *Create Development environment*. It will take a few minutes to provision your IDE. Once provisioned, it will open a new window.
-3. In the terminal of the IDE (bottom pane), run the following commands:
+For the steps using cloudformation
+
+1. Have your account sign in and enter to cloudformation.
+2. Download the following file https://djzvpds7r9hcp.cloudfront.net/c9-ros-nice-cfn.yaml
+3. Create New Stack, choose upload from a template file and choose the previous downloaded file, Click Next
+4. Choose a Stack Name, write the Cloud9AccessRoleName **DO NOT LEAVE AS DEAFULT**, Choose ROS Version ROS1NOETIC, and leave simulator as Gazebo
+5. Click Next and leave everythin as default,
+6. Click Next and accept that you acknowledge that AWS CloudFormation might create IAM resources.
+7. Wait for the stack to deploy 
+8. When ready go into Cloud9 and open Cloud9 IDE 
+9. In the terminal of the IDE (bottom pane), run the following commands:
 
     ```bash
         cd ~/environment
-        git clone https://github.com/aws-samples/aws-robomaker-jetbot-ros
-        cd aws-robomaker-jetbot-ros
+        git clone https://github.com/cataherrera/Cloud4kids-Robo4kids.git robo4kids
+        cd robo4kids
         chmod +x ./setup.sh
         ./setup.sh
     ```
@@ -37,45 +45,21 @@ The sample applications in this repository can be run on a Gazebo simulation.
 3. Next, we will build the ROS application to run in simulation. **Note: every time you make a code change to the ROS packages in this sample repository, you will need to run this command to re-build the application.**
 
     ```bash
-    cd ~/environment/aws-robomaker-jetbot-ros
+    cd ~/environment/robo4kids
     colcon build
     ```
 
 ## Running the sample applications
+### Robo4Kids - Control your robot with blockly
 
-Now that the ROS application is built, we can source the application and run the simulation. To run the sample applications, simply source the built workspace then invoke the **roslaunch** file. Below are the three sample applications you can run.
+Now that the ROS application is built, we can source the application and run the simulation. To run the sample applications, simply source the built workspace then invoke the **roslaunch** file.
 
 To start, ensure you are in the base workspace directory and the application has been sourced.
 
 ```bash
-cd ~/environment/aws-robomaker-jetbot-ros
+cd ~/environment/robo4kids
 source install/setup.sh
 ```
-
-1. In the first sample application, the Jetbot will perform a simple motion task. It will move 1 m forward, rotate 180 degrees in place, then will move another 1 m forward.
-
-    ```bash
-    roslaunch simple_motion simple_motion_sim.launch
-    ```
-
-2. In the next sample application, the Jetbot will navigate around a simple track by following a line.
-
-    ```bash
-    roslaunch line_following line_following_sim.launch
-    ```
-
-2. In the final sample, we will run a SLAM and gmapping demo. There are three worlds to choose from; `small_house`, `bookstore` and `small_warehouse`. Simply update the `world:=<world>` paramater with the world you would like to use!
-
-    ```bash
-    roslaunch slam_demo explore_world.launch world:=bookstore
-    ```
-
-**Congratulations!!** The simulation should now be running. To run another application, look through the **aws_example_apps** folder. In each example app, there is a launch folder with launch files you can run using the command structure above.
-
-![Waveshare JetBot with a Lidar](/images/jetbot-lidar.jpg)
-
-### Robo4Kids - Control your robot with blockly
-
 
 You will be able to control de jetbot movement through some blockly code in your computer.
 
@@ -112,7 +96,7 @@ Run the following command in your Robomaker enviroment, change the `<Region you 
 Run the following command in your Robomaker enviroment, this script will create the necesary requirments to connect through IoT to the jebtot as well as a cognito identity pool.
 
  ```bash
-    cd ~/environment/aws-robomaker-jetbot-ros/src/aws_example_apps/robo4kids/assets/scripts
+    cd ~/environment/robo4kidss/src/aws_example_apps/robo4kids/assets/scripts
     chmod +x  install_deps.sh
     source install_deps.sh
 
@@ -120,12 +104,12 @@ Run the following command in your Robomaker enviroment, this script will create 
 #### 4. Next, we will re-build the ROS application to run in simulation.
 
 ```bash
-    cd ~/environment/aws-robomaker-jetbot-ros
+    cd ~/environment/robo4kids
     colcon build
 ```   
 To start, ensure you are in the base workspace directory and the application has been sourced.
 ```bash
-    cd ~/environment/aws-robomaker-jetbot-ros
+    cd ~/environment/robo4kids
     source install/setup.sh
 ```   
 
